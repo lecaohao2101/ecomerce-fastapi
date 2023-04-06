@@ -6,7 +6,7 @@ from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime, Doub
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 from sqladmin import Admin, ModelView
-
+from src.app import *
 # connection db
 SQLALCHEMY_DATABASE_URL = "sqlite:///app.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)

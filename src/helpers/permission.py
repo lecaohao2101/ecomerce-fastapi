@@ -45,6 +45,9 @@ def get_permission(role: str, resource: str, action: str):
         return False
 
 
+
+
+
 def get_view(role: str, identity: str):
     view: list[dict] = VIEWS.get(role)
     if view:

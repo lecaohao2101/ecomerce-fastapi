@@ -28,7 +28,7 @@ class UserModel(Base):
         back_populates="user", lazy="subquery"
     )
     list_order: Mapped[list["OrderModel"]] = relationship(
-        back_populates="user", lazy="subquery"
+        back_populates="order", lazy="subquery"
     )
     list_store:Mapped[list["StoreModel"]] = relationship(
         back_populates="user", lazy="subquery"

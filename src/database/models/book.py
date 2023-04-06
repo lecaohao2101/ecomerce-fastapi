@@ -23,14 +23,17 @@ class BookModel(Base):
     store_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("store.id")
     )
+    author_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("author.id")
+    )
     store: Mapped["StoreModel"] = relationship(
-        "storeModel", lazy="subquery", back_populates="list_book"
+        "StoreModel", lazy="subquery", back_populates="list_book"
     )
     category: Mapped["CategoryModel"] = relationship(
         "CategoryModel", lazy="subquery", back_populates="list_book"
     )
     list_book_order_item: Mapped["OrderItemModel"] = relationship(
-         lazy="subquery", back_populates="list_book"
+         lazy="subquery", back_populates="book"
     )
     list_book_author: Mapped["AuthorModel"] = relationship(
          "AuthorModel", lazy="subquery", back_populates="book"

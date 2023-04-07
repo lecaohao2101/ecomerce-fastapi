@@ -31,4 +31,4 @@ class AddressModel(Base):
     )
 
     def __str__(self):
-        return f'{self.number} {self.street}, {self.district}, {self.city}, {self.country}'
+        return f'{self.number_home} {self.street}, {self.district}, {self.city}, {self.country}'

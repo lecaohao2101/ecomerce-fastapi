@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, ForeignKey, Numeric
+from sqlalchemy import String, Integer, ForeignKey, Float
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database.base_class import Base
@@ -12,7 +12,7 @@ class BookModel(Base):
         String
     )
     price: Mapped[str] = mapped_column(
-        Numeric
+        Float
     )
     stock: Mapped[str] = mapped_column(
         Integer

@@ -12,7 +12,7 @@ import http3
 import stripe
 import json
 
-from src import app, schemas
+
 
 router = APIRouter(
     tags=['User Interface']

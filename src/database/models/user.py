@@ -5,15 +5,17 @@ from src.database.base_class import Base
 from src.database.models import *
 
 
+
+
 class UserModel(Base):
     username: Mapped[str] = mapped_column(
         String(length=20), unique=True
     )
     email: Mapped[str] = mapped_column(
-        String(length=20), unique=True
+        String(length=100), unique=True
     )
     full_name: Mapped[str] = mapped_column(
-        String(length=30), unique=True
+        String(length=100), unique=True
     )
     password: Mapped[str] = mapped_column(
         String(length=20)

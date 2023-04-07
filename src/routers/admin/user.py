@@ -11,8 +11,8 @@ class UserAdmin(ModelView, model=UserModel):
         UserModel.role_id
     ]
 
-    def is_accessible(self, request) -> bool:
-        return check_role_access(request)
-
-    def is_visible(self, request) -> bool:
-        return check_role_view(request, self.identity)
+    # def is_accessible(self, request) -> bool:
+    #     return check_role_access(request)
+    #
+    # def is_visible(self, request) -> bool:
+    #     return check_role_view(request, self.identity)

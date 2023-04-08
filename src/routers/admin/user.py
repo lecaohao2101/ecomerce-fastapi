@@ -9,6 +9,14 @@ class UserAdmin(ModelView, model=UserModel):
         UserModel.role_id
     ]
 
+    column_default_sort = [(UserModel.role_id, 1)]
+    form_columns = [
+        UserModel.email,
+        UserModel.full_name,
+        UserModel.password,
+        UserModel.role
+    ]
+
     # def is_accessible(self, request) -> bool:
     #     return check_role_access(request)
     #

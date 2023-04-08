@@ -3,16 +3,21 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from fastapi import APIRouter, Request, status, HTTPException
+from fastapi import APIRouter, Request, status, HTTPException, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
+
+from sqlalchemy.orm import Session
+
+import app
 from src.config import settings
 import http3
 import stripe
 import json
 
-
+from src.database.models import StoreModel
+from src.database.session import get_db
 
 router = APIRouter(
     tags=['User Interface']
@@ -167,7 +172,7 @@ async def create_checkout_session(path, request: Request):
         # [customer_email] - lets you prefill the email input in the form
         # For full details see https:#stripe.com/docs/api/checkout/sessions/create
 
-        # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param 
+        # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
 
         checkout_session = stripe.checkout.Session.create(
             success_url=domain_url + "success?session_id={CHECKOUT_SESSION_ID}",
@@ -399,4 +404,27 @@ def elements_progress_bars(request: Request):
     return TEMPLATES.TemplateResponse("pages/elements-progress-bars.html", {
         "request": request,
         "config": settings
+    })
+
+
+
+
+@router.get('/stores')
+def get_all_stores(request: Request, session: Session = Depends(get_db)):
+    stores = session.query(StoreModel).all()
+    return TEMPLATES.TemplateResponse("ecommerce/index.html", {
+        "request": request,
+        "stores": stores,
+    })
+
+
+
+@router.get('/stores/{id}')
+def get_store(id: int, request: Request, session=Depends(get_db)):
+    stores = [
+        {}
+    ]
+    return TEMPLATES.TemplateResponse("ecommerce/index.html", {
+        "request": request,
+        "stores": stores,
     })

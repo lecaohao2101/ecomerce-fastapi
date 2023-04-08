@@ -16,7 +16,7 @@ class UserAdmin(ModelView, model=UserModel):
         UserModel.password,
         UserModel.role
     ]
-
+    column_sortable_list = [UserModel.email]
     # def is_accessible(self, request) -> bool:
     #     return check_role_access(request)
     #

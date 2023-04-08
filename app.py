@@ -23,8 +23,6 @@ from src.routers.products import router as product_router
 from src.database.models.user import UserModel
 from src.database.models import user
 # from fastapi_session import SessionMiddleware
-from faker import Faker
-fake = Faker()
 
 if settings.debug == 'True':
     app = FastAPI(debug=True, reload=True)
@@ -45,17 +43,17 @@ admin = Admin(
 )
 
 
-admin.add_view(RoleAdmin)
-admin.add_view(UserAdmin)
-admin.add_view(CategoryAdmin)
-admin.add_view(AuthorAdmin)
+
+admin.add_view(UserAdmin) #1
+admin.add_view(CategoryAdmin)#3
+admin.add_view(AuthorAdmin) #4
 
 
-admin.add_view(AdressAdmin)
-admin.add_view(OrderAdmin)
-admin.add_view(StoreAdmin)
-admin.add_view(BookAdmin)
-admin.add_view(OrderItemAdmin)
+admin.add_view(AdressAdmin)#6
+admin.add_view(OrderAdmin)#7
+admin.add_view(StoreAdmin)#2
+admin.add_view(BookAdmin) #5
+admin.add_view(OrderItemAdmin)#8
 # admin.add_view(CustomerAdmin)
 
 

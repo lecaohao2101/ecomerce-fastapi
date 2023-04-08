@@ -5,12 +5,7 @@ from src.database.base_class import Base
 from src.database.models import *
 
 
-
-
 class UserModel(Base):
-    username: Mapped[str] = mapped_column(
-        String(length=20), unique=True
-    )
     email: Mapped[str] = mapped_column(
         String(length=100), unique=True
     )
@@ -32,10 +27,9 @@ class UserModel(Base):
     list_order: Mapped[list["OrderModel"]] = relationship(
         back_populates="order", lazy="subquery"
     )
-    list_store:Mapped[list["StoreModel"]] = relationship(
+    list_store: Mapped[list["StoreModel"]] = relationship(
         back_populates="user", lazy="subquery"
     )
-
 
     def __str__(self):
         return f'{self.full_name}'

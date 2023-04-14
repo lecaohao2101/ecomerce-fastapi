@@ -1,27 +1,35 @@
 from starlette.requests import Request
-
-from src.database.models import RoleModel
+from src.database.models import RoleModel, RoleEnum, UserModel
 from src.database.session import SessionLocal
 
 PERMISSION = {
     "ADMIN": [
-        "*"
-    ],
-    "STORE_OWNER": [
-        {"user-model": ["list"]},
+        {"user-model": ["list","edit", "details", "*", "view"]},
+        {"store-model": ["list"]},
         {"/": ["index"]},
     ],
-    "CUSTOMER": [
+    "STORE_OWNER": [
+        {"book-model": ["list"]},
+        {"category-model": ["list"]},
+        {"order-model": ["list"]},
+        {"order-item-model": ["list"]},
+        {"/": ["index"]},
     ],
+    "CUSTOMER": [],
 }
 
 VIEWS = {
-    "ADMIN": ["*"],
+    "ADMIN": [
+        "user-model",
+        "store-model",
+    ],
     "STORE_OWNER": [
-        "user-model"
+        "book-model",
+        "category-model",
+        "order-model",
+        "order-item-model",
     ],
-    "CUSTOMER": [
-    ],
+    "CUSTOMER": [],
 }
 
 
@@ -29,23 +37,24 @@ def get_permission(role: str, resource: str, action: str):
     permissions: list[dict] = PERMISSION.get(role)
     if permissions:
         if permissions[0] != "*":
+            count = 0
             for permission in permissions:
                 permission_resource = permission.get(resource)
                 if permission_resource:
                     if action in permission_resource:
-                        return True
+                        count += 1
                     else:
-                        return False
+                        continue
                 else:
-                    return False
-            return True
+                    continue
+            if count == 0:
+                return False
+            else:
+                return True
         else:
             return True
     else:
         return False
-
-
-
 
 
 def get_view(role: str, identity: str):
@@ -90,3 +99,7 @@ def check_role_view(request: Request, identity):
         return get_view(role, identity)
     else:
         return False
+
+
+
+

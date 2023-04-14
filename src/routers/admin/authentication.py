@@ -6,6 +6,7 @@ from starlette.responses import RedirectResponse
 
 from src.database.models import UserModel
 from src.database.session import SessionLocal
+from src.helpers.permission import check_role_view
 
 
 class AdminAuth(AuthenticationBackend):
@@ -29,6 +30,7 @@ class AdminAuth(AuthenticationBackend):
                 return False
         else:
             return False
+
 
     async def logout(self, request: Request) -> bool:
         # Usually you'd want to just clear the session

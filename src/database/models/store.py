@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, ForeignKey, DateTime, Double
+from sqlalchemy import String, Integer, ForeignKey, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database.base_class import Base
@@ -9,6 +9,9 @@ class StoreModel(Base):
         Integer, ForeignKey("user.id")
     )
     name: Mapped[str] = mapped_column(
+        String
+    )
+    image: Mapped[str] = mapped_column(
         String
     )
     user: Mapped["UserModel"] = relationship(

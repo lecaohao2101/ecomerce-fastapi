@@ -1,6 +1,5 @@
 from sqlalchemy import String, Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from src.database.base_class import Base
 from src.database.models import *
 

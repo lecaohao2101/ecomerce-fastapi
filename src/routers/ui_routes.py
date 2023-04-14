@@ -7,17 +7,15 @@ from fastapi import APIRouter, Request, status, HTTPException, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
-
 from sqlalchemy.orm import Session
-
 import app
 from src.config import settings
 import http3
 import stripe
 import json
-
-from src.database.models import StoreModel
+from src.database.models import StoreModel, UserModel
 from src.database.session import get_db
+
 
 router = APIRouter(
     tags=['User Interface']
@@ -253,6 +251,7 @@ def page_sign_up(request: Request):
         "request": request,
         "config": settings
     })
+
 
 
 @router.get('/page-404')

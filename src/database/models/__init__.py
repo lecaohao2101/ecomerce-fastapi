@@ -7,4 +7,5 @@ from .order import OrderModel
 from .store import StoreModel
 from .book import BookModel
 from .order_item import OrderItemModel
+from .request import CategoryRequest
 

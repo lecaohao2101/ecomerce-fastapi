@@ -66,6 +66,7 @@ admin.add_view(OrderItemAdmin)
 
 @app.post("/register")
 async def register(
+        request: Request,
     role_id:int=Form(default=3),
     email: str = Form(default=None),
     full_name: str = Form(default=None),
@@ -89,7 +90,7 @@ async def register(
     session.add(user)
     session.commit()
 
-    return templates.TemplateResponse("register_success.html", {"request": request})
+    return templates.TemplateResponse("page-sign-in.html", {"request": request})
 # @app.post('add_new_user')
 # def add_new_user(email: UserModel, db:Session=Depends(get_db)):
 #     email = get_user_by_email(db=db, email=email.email)

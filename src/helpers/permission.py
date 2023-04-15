@@ -3,31 +3,31 @@ from src.database.models import RoleModel, RoleEnum, UserModel
 from src.database.session import SessionLocal
 
 PERMISSION = {
-    "ADMIN": [
-        {"user-model": ["list","edit", "details", "*", "view"]},
-        {"store-model": ["list"]},
+    "ADMIN": ["*",
+        # {"user-model": ["list","edit", "details", "view"]},
+        # {"store-model": ["list"]},
         {"/": ["index"]},
     ],
-    "STORE_OWNER": [
-        {"book-model": ["list"]},
-        {"category-model": ["list"]},
-        {"order-model": ["list"]},
-        {"order-item-model": ["list"]},
+    "STORE_OWNER": ["*",
+        # {"book-model": ["list"]},
+        # {"category-model": ["list"]},
+        # {"order-model": ["list"]},
+        # {"order-item-model": ["list"]},
         {"/": ["index"]},
     ],
     "CUSTOMER": [],
 }
 
 VIEWS = {
-    "ADMIN": [
-        "user-model",
-        "store-model",
+    "ADMIN": ["*"
+        # "user-model",
+        # "store-model",
     ],
-    "STORE_OWNER": [
-        "book-model",
-        "category-model",
-        "order-model",
-        "order-item-model",
+    "STORE_OWNER": ["*"
+        # "book-model",
+        # "category-model",
+        # "order-model",
+        # "order-item-model",
     ],
     "CUSTOMER": [],
 }

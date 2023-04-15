@@ -1,4 +1,6 @@
 from sqladmin import ModelView
+from wtforms import PasswordField
+
 from src.database.models import UserModel
 from starlette.requests import Request
 from src.helpers.permission import check_role_access, check_role_view
@@ -9,6 +11,16 @@ class UserAdmin(ModelView, model=UserModel):
     name_plural = "User"
     icon = "fa-solid fa-user"
     column_list = [UserModel.id, UserModel.email, UserModel.full_name, UserModel.role]
+
+    # exclude_properties = ['password']
+    # form_extra_field = {
+    #     'new_password': PasswordField('New Password')
+    #
+    # }
+    # def on_model_change(self, data: dict, model: Any, is_created: bool) -> None:
+    # def on_model_change(self, form, model, is_created) -> None:
+    #     if form.new_password.data:
+    #         model.password = generate_password_has(form.new_password.data)
     # column_details_exclude_list = [
     #     UserModel.id,
     #     UserModel.role_id
@@ -25,6 +37,7 @@ class UserAdmin(ModelView, model=UserModel):
     column_labels = {UserModel.email: "Email"}
     column_labels = {UserModel.full_name: "Full Name"}
     column_labels = {UserModel.role: "Role"}
+    column_details_exclude_list = [UserModel.password]
     # can_create = False
     # can_delete = False
     # can_edit = True

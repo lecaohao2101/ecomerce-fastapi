@@ -2,6 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException, Request, Form, status
 from fastapi.staticfiles import StaticFiles
 from sqladmin import Admin
 from sqlalchemy.orm import Session
+from starlette.templating import Jinja2Templates
+
 from src.database.models import RoleModel
 from src.routers.admin.address import AdressAdmin
 from src.routers.admin.authentication import AdminAuth
@@ -13,6 +15,8 @@ from src.routers.admin.order_item import OrderItemAdmin
 from src.routers.admin.role import RoleAdmin
 from src.routers.admin.user import UserAdmin
 from src.routers.admin.store import StoreAdmin
+from src.routers.register.register import templates
+# from src.routers.admin.request import Request
 from src.routers.ui_routes import router as ui_router
 from src.routers.products import router as product_router
 from src.database.models.user import UserModel
@@ -20,12 +24,14 @@ from src.database.session import *
 
 
 app = FastAPI()
+templates = Jinja2Templates(directory="templates")
+
 # if settings.debug == 'True':
 #     app = FastAPI(debug=True, reload=True)
 # else:
 #     app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="src/static"), name="static")
+app.mount("/static", StaticFiles(directory  ="src/static"), name="static")
 
 app.include_router(ui_router)
 app.include_router(product_router)
@@ -48,7 +54,7 @@ admin.add_view(OrderAdmin)
 admin.add_view(StoreAdmin)
 admin.add_view(BookAdmin)
 admin.add_view(OrderItemAdmin)
-
+# admin.add_view(Request)
 
 
 
@@ -67,6 +73,15 @@ async def register(
     re_password: str = Form(default=None),
     session: Session = Depends(get_db)
 ):
+    # if password != re_password:
+    #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password does not match")
+    #
+    # user = UserModel(role_id=role_id, email=email, full_name=full_name, password=password)
+    # session.add(user)
+    # session.commit()
+
+
+    # return {"message": "User created successfully"}
     if password != re_password:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Password does not match")
 
@@ -74,8 +89,7 @@ async def register(
     session.add(user)
     session.commit()
 
-    return {"message": "User created successfully"}
-
+    return templates.TemplateResponse("register_success.html", {"request": request})
 # @app.post('add_new_user')
 # def add_new_user(email: UserModel, db:Session=Depends(get_db)):
 #     email = get_user_by_email(db=db, email=email.email)

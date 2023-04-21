@@ -5,6 +5,9 @@ from src.database.base_class import Base
 
 
 class BookModel(Base):
+    image: Mapped[str] = mapped_column(
+        String
+    )
     name: Mapped[str] = mapped_column(
         String
     )

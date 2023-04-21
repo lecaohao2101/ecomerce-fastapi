@@ -10,8 +10,6 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 import app
 from src.config import settings
-import http3
-import stripe
 import json
 from src.database.models import StoreModel, UserModel
 from src.database.session import get_db

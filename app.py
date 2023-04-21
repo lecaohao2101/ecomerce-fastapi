@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-from fastapi import Request
-from starlette.middleware.sessions import SessionMiddleware
-
-from fastapi.staticfiles import StaticFiles
-from sqladmin import Admin
-=======
 from fastapi import FastAPI, Depends, HTTPException, status, Form
 from fastapi import Request
 from fastapi.responses import RedirectResponse
@@ -12,8 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqladmin import Admin
 from sqlalchemy.orm import Session
->>>>>>> f4470f761030a0389d76f2431ee7f28b36aa0f61
-
+from starlette.middleware.sessions import SessionMiddleware
 from src.config import settings
 from src.database.models import UserModel
 from src.database.models.address import AddressModel
@@ -45,21 +37,13 @@ app.mount("/static", StaticFiles(directory="src/static"), name="static")
 app.include_router(ui_router)
 app.include_router(product_router)
 
-<<<<<<< HEAD
-# ADMIN
-=======
-
->>>>>>> f4470f761030a0389d76f2431ee7f28b36aa0f61
 authentication_backend = AdminAuth(secret_key="app-dev")
 admin = Admin(
     app=app,
     engine=engine,
-<<<<<<< HEAD
+
     authentication_backend=authentication_backend,
-    templates_dir="src/templates"
-=======
-    authentication_backend=authentication_backend
->>>>>>> f4470f761030a0389d76f2431ee7f28b36aa0f61
+    templates_dir="src/templates",
 )
 
 
@@ -129,28 +113,29 @@ async def register(
 
 
 
-# @app.post('/login')
-# def login(
-#         request: Request,
-#         email: str = Form(default=None),
-#         password: str = Form(default=None),
-#         db: Session = Depends(get_db)
-# ):
-#     valid_user = db.query(UserModel).filter(
-#         UserModel.email == email
-#     ).first()
-#
-#     if valid_user:
-#         if valid_user.password == password:
-#             request.session.update(
-#                 {"user_id": valid_user.id, "role": valid_user.role_id}
-#             )
-#             return True
-#     return TEMPLATES.TemplateResponse("pages/page-sign-in.html", {
-#         "request": request,
-#         "message": "Invalid information login"
-#     })
-#
-#
-#
-#
+@app.post('/login')
+def login(
+        request: Request,
+        email: str = Form(default=None),
+        password: str = Form(default=None),
+        db: Session = Depends(get_db)
+):
+    valid_user = db.query(UserModel).filter(
+        UserModel.email == email
+    ).first()
+
+    if valid_user:
+        if valid_user.password == password:
+            request.session.update(
+                {"user_id": valid_user.id, "role": valid_user.role_id}
+            )
+
+            return True
+    return TEMPLATES.TemplateResponse("pages/page-sign-in.html", {
+        "request": request,
+        "message": "Invalid information login"
+    })
+
+
+
+

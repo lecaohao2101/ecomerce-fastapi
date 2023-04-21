@@ -29,7 +29,6 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['role_id'], ['role.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('full_name')
     )
     # ### end Alembic commands ###
 

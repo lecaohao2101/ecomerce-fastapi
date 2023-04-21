@@ -2,32 +2,37 @@ from starlette.requests import Request
 from src.database.models import RoleModel, RoleEnum, UserModel
 from src.database.session import SessionLocal
 
+
 PERMISSION = {
-    "ADMIN": ["*",
-        # {"user-model": ["list","edit", "details", "view"]},
-        # {"store-model": ["list"]},
+    "ADMIN": [
+        {"user-model": ["list", "details", "view"]},
+        {"store-model": ["list"]},
+        {"category-request": ["list","details","edit","delete","create"]},
         {"/": ["index"]},
     ],
-    "STORE_OWNER": ["*",
-        # {"book-model": ["list"]},
-        # {"category-model": ["list"]},
-        # {"order-model": ["list"]},
-        # {"order-item-model": ["list"]},
+    "STORE_OWNER": [
+        {"book-model": ["list","details","edit","delete","create"]},
+        {"category-model": ["list","details","edit","delete","create"]},
+        {"order-model": ["list", "list","details","edit","delete","create"]},
+        {"order-item-model": ["list","details","edit","delete","create"]},
+        {"category-request": ["list","details","edit","delete","create"]},
         {"/": ["index"]},
     ],
     "CUSTOMER": [],
 }
 
 VIEWS = {
-    "ADMIN": ["*"
-        # "user-model",
-        # "store-model",
+    "ADMIN": [
+        "user-model",
+        "store-model",
+        "category-request"
     ],
-    "STORE_OWNER": ["*"
-        # "book-model",
-        # "category-model",
-        # "order-model",
-        # "order-item-model",
+    "STORE_OWNER": [
+        "book-model",
+        "category-model",
+        "order-model",
+        "order-item-model",
+        "category-request"
     ],
     "CUSTOMER": [],
 }
@@ -76,7 +81,7 @@ def check_role_access(request: Request):
     valid_role = session.query(RoleModel).get(role_request)
     if valid_role:
         path = request.url.path.strip("/").split("/")
-        if len(path) > 1:
+        if len(path) > 2:
             resource = path[1]
             action = path[2]
             role = valid_role.name.value
@@ -84,6 +89,11 @@ def check_role_access(request: Request):
         elif len(path) == 1:
             resource = "/"
             action = "index"
+            role = valid_role.name.value
+            return get_permission(role, resource, action)
+        elif len(path) == 2:
+            resource = path[0]
+            action = path[1]
             role = valid_role.name.value
             return get_permission(role, resource, action)
     else:

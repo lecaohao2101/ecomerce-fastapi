@@ -38,7 +38,11 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
+<<<<<<< HEAD
 VIRTUAL_ENV="D:\CODE\ecomerce-fastapis\venv"
+=======
+VIRTUAL_ENV="D:\ecomerce-fastapis\venv"
+>>>>>>> 235a2cc1f1c20aa29f15f118f4c6701cc6cd0a25
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

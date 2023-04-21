@@ -8,7 +8,11 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
+<<<<<<< HEAD
 set VIRTUAL_ENV=D:\CODE\ecomerce-fastapis\venv
+=======
+set VIRTUAL_ENV=D:\ecomerce-fastapis\venv
+>>>>>>> 235a2cc1f1c20aa29f15f118f4c6701cc6cd0a25
 
 if not defined PROMPT set PROMPT=$P$G
 

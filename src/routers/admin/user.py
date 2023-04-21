@@ -1,8 +1,5 @@
 from sqladmin import ModelView
-from wtforms import PasswordField
-
 from src.database.models import UserModel
-from starlette.requests import Request
 from src.helpers.permission import check_role_access, check_role_view
 
 
@@ -34,14 +31,14 @@ class UserAdmin(ModelView, model=UserModel):
     #     UserModel.role
     # ]
 
-    column_labels = {UserModel.email: "Email"}
-    column_labels = {UserModel.full_name: "Full Name"}
-    column_labels = {UserModel.role: "Role"}
+    column_labels = {UserModel.email: "Email", UserModel.full_name:"Full Name", UserModel.role:"Role"}
+
     column_details_exclude_list = [UserModel.password]
-    # can_create = False
-    # can_delete = False
-    # can_edit = True
-    # can_export = False
+    # column_exclude_list = [UserModel.password]
+    can_create = False
+    can_delete = False
+    can_edit = True
+    can_export = False
 
     def is_accessible(self, request) -> bool:
         return check_role_access(request)

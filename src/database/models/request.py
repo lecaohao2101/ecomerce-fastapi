@@ -1,4 +1,4 @@
-from sqlalchemy import String
+from sqlalchemy import String, Boolean
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database.base_class import Base
@@ -12,7 +12,7 @@ class CategoryRequest(Base):
         String
     )
     status: Mapped[str] = mapped_column(
-        String
+        Boolean, server_default="0"
     )
     store_owner_id: Mapped[str] = mapped_column(
         String

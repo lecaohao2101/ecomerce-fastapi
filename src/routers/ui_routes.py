@@ -10,8 +10,6 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 import app
 from src.config import settings
-import http3
-import stripe
 import json
 from src.database.models import StoreModel, UserModel, CategoryModel, AuthorModel, BookModel
 from src.database.session import get_db, SessionLocal
@@ -263,6 +261,18 @@ def page_sign_up(request: Request):
     })
 
 
+<<<<<<< HEAD
+=======
+@router.get('/page-address')
+def page_sign_up(request: Request):
+    return TEMPLATES.TemplateResponse("pages/page-address.html", {
+        "request": request,
+        "config": settings
+    })
+
+
+
+>>>>>>> 235a2cc1f1c20aa29f15f118f4c6701cc6cd0a25
 @router.get('/page-404')
 def page_404(request: Request):
     return TEMPLATES.TemplateResponse("pages/page-404.html", {

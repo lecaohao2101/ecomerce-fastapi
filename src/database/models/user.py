@@ -9,7 +9,7 @@ class UserModel(Base):
         String(length=100), unique=True
     )
     full_name: Mapped[str] = mapped_column(
-        String(length=100), unique=True
+        String(length=100)
     )
     password: Mapped[str] = mapped_column(
         String(length=20)
@@ -24,7 +24,7 @@ class UserModel(Base):
         back_populates="user", lazy="subquery"
     )
     list_order: Mapped[list["OrderModel"]] = relationship(
-        back_populates="order", lazy="subquery"
+        back_populates="user", lazy="subquery"
     )
     list_store: Mapped[list["StoreModel"]] = relationship(
         back_populates="user", lazy="subquery"

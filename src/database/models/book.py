@@ -5,6 +5,9 @@ from src.database.base_class import Base
 
 
 class BookModel(Base):
+    image: Mapped[str] = mapped_column(
+        String
+    )
     name: Mapped[str] = mapped_column(
         String
     )
@@ -41,4 +44,4 @@ class BookModel(Base):
     )
 
     def __str__(self):
-        return f'{self.name} {self.description}, {self.price}, {self.stock}, {self.store_id}, {self.category_id}'
+        return f'{self.name}'

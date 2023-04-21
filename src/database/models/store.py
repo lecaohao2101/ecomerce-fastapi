@@ -1,10 +1,11 @@
 from sqlalchemy import String, Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+# from sqlalchemy.types import
 from src.database.base_class import Base
 
 
-class StoreModel(Base):
+class StoreModel(Base, ):
     user_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("user.id")
     )
@@ -14,6 +15,10 @@ class StoreModel(Base):
     image: Mapped[str] = mapped_column(
         String
     )
+    # image: Mapped[bytes] = Column(LargeBinary)
+    # image: Mapped[bytes] = mapped_column(
+    #     ImageType
+    # )
     user: Mapped["UserModel"] = relationship(
         "UserModel", lazy="subquery", back_populates="list_store"
     )

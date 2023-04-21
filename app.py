@@ -1,11 +1,23 @@
+<<<<<<< HEAD
 from fastapi import Request
 from starlette.middleware.sessions import SessionMiddleware
 
 from fastapi.staticfiles import StaticFiles
 from sqladmin import Admin
+=======
+from fastapi import FastAPI, Depends, HTTPException, status, Form
+from fastapi import Request
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from sqladmin import Admin
+from sqlalchemy.orm import Session
+>>>>>>> f4470f761030a0389d76f2431ee7f28b36aa0f61
 
 from src.config import settings
-from src.database.models import CategoryRequest
+from src.database.models import UserModel
+from src.database.models.address import AddressModel
+from src.database.session import *
 from src.routers.admin.address import AdressAdmin
 from src.routers.admin.authentication import AdminAuth
 from src.routers.admin.author import AuthorAdmin
@@ -13,23 +25,11 @@ from src.routers.admin.book import BookAdmin
 from src.routers.admin.category import CategoryAdmin
 from src.routers.admin.order import OrderAdmin
 from src.routers.admin.order_item import OrderItemAdmin
-from src.routers.admin.role import RoleAdmin
-from src.routers.admin.user import UserAdmin
-from src.routers.admin.store import StoreAdmin
 from src.routers.admin.request import RequestAdmin
-
-from src.routers.ui_routes import router as ui_router, TEMPLATES
+from src.routers.admin.store import StoreAdmin
+from src.routers.admin.user import UserAdmin
 from src.routers.products import router as product_router
-from src.database.models.user import UserModel
-from src.database.models.address import AddressModel
-from src.database.session import *
-
-from fastapi import FastAPI, Depends, HTTPException, status, Form
-from fastapi.responses import RedirectResponse
-from fastapi.templating import Jinja2Templates
-from sqlalchemy.orm import Session
-from src.database.models import UserModel
-
+from src.routers.ui_routes import router as ui_router, TEMPLATES
 
 app = FastAPI()
 app.add_middleware(SessionMiddleware, secret_key="app-dev")
@@ -45,13 +45,21 @@ app.mount("/static", StaticFiles(directory="src/static"), name="static")
 app.include_router(ui_router)
 app.include_router(product_router)
 
+<<<<<<< HEAD
 # ADMIN
+=======
+
+>>>>>>> f4470f761030a0389d76f2431ee7f28b36aa0f61
 authentication_backend = AdminAuth(secret_key="app-dev")
 admin = Admin(
     app=app,
     engine=engine,
+<<<<<<< HEAD
     authentication_backend=authentication_backend,
     templates_dir="src/templates"
+=======
+    authentication_backend=authentication_backend
+>>>>>>> f4470f761030a0389d76f2431ee7f28b36aa0f61
 )
 
 

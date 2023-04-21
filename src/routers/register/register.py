@@ -36,7 +36,6 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from src.database.session import SessionLocal
 from src.database.models import *
-# from src.schemas import UserCreate
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")

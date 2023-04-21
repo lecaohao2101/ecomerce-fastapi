@@ -1,11 +1,8 @@
 from sqlalchemy import String, Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 # from sqlalchemy.types import
-from sqlalchemy.orm import declarative_base
-from sqlalchemy_fields.storages import FileSystemStorage
-from sqlalchemy_fields.types import ImageType
 from src.database.base_class import Base
-from sqlalchemy import LargeBinary
 
 
 class StoreModel(Base, ):

@@ -13,9 +13,8 @@ from src.config import settings
 import http3
 import stripe
 import json
-from src.database.models import StoreModel, UserModel
-from src.database.session import get_db
-
+from src.database.models import StoreModel, UserModel, CategoryModel, AuthorModel, BookModel
+from src.database.session import get_db, SessionLocal
 
 router = APIRouter(
     tags=['User Interface']
@@ -33,8 +32,19 @@ stripe_keys = {
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-async def index(request: Request, response_model=HTMLResponse):
-    return TEMPLATES.TemplateResponse("pages/index.html", {"request": request})
+async def index(request: Request, response_model=HTMLResponse, session=Depends(get_db)):
+    list_category = session.query(CategoryModel).all()
+    list_author = session.query(AuthorModel).all()
+    list_stores = session.query(StoreModel).all()
+    return TEMPLATES.TemplateResponse(
+        "pages/index.html",
+        {
+            "request": request,
+            "categories": list_category,
+            "authors": list_author,
+            "stores": list_stores
+        }
+    )
 
 
 @router.get("/products/", status_code=status.HTTP_200_OK)
@@ -253,7 +263,6 @@ def page_sign_up(request: Request):
     })
 
 
-
 @router.get('/page-404')
 def page_404(request: Request):
     return TEMPLATES.TemplateResponse("pages/page-404.html", {
@@ -406,8 +415,6 @@ def elements_progress_bars(request: Request):
     })
 
 
-
-
 @router.get('/stores')
 def get_all_stores(request: Request, session: Session = Depends(get_db)):
     stores = session.query(StoreModel).all()
@@ -417,13 +424,52 @@ def get_all_stores(request: Request, session: Session = Depends(get_db)):
     })
 
 
-
 @router.get('/stores/{id}')
-def get_store(id: int, request: Request, session=Depends(get_db)):
-    stores = [
-        {}
-    ]
+def get_store(id: int, request: Request, session: SessionLocal = Depends(get_db)):
+    books = session.query(BookModel).filter(BookModel.store_id == id).all()
+    store = session.query(StoreModel).filter(StoreModel.id == id).first()
+    best_book = books[0]
+
+    if len(books) % 2 == 0:
+        mid = len(books) // 2
+        books_part1 = books[0::mid]
+        books_part2 = books[mid::]
+    else:
+        books_part1 = None
+        books_part2 = None
+    list_category = session.query(CategoryModel).all()
+    list_author = session.query(AuthorModel).all()
+    list_stores = session.query(StoreModel).all()
+    return TEMPLATES.TemplateResponse("pages/stores_book.html", {
+        "request": request,
+        "books": books,
+        "books_part1": books_part1,
+        "books_part2": books_part2,
+        "store": store,
+        "categories": list_category,
+        "authors": list_author,
+        "stores": list_stores,
+        "best_book": best_book
+    })
+
+@router.get('/books/{id}')
+def get_book(id: int, request: Request, session: SessionLocal = Depends(get_db)):
+    books = session.query(BookModel).filter(BookModel.store_id == id).all()
     return TEMPLATES.TemplateResponse("ecommerce/index.html", {
         "request": request,
-        "stores": stores,
+        "books": books,
     })
+@router.get('/helpscreen')
+def get_help(request: Request, session=Depends(get_db)):
+    return TEMPLATES.TemplateResponse("pages/elements-progress-bars.html", {
+        "request": request,
+        "config": settings
+    })
+
+# @router.get('/profile')
+# def get_user(id: int, request: Request, session=Depends(get_db)):
+#     users = session.query(id).all()
+#     return TEMPLATES.TemplateResponse("ecommerce/profile.html", {
+#         "request": request,
+#         "user": users,
+#     })

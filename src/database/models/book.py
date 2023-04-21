@@ -8,6 +8,7 @@ class BookModel(Base):
     name: Mapped[str] = mapped_column(
         String
     )
+
     description: Mapped[str] = mapped_column(
         String
     )

@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, ForeignKey, DateTime, Double
+from sqlalchemy import Integer, ForeignKey, DateTime, Float
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database.base_class import Base
@@ -12,9 +12,9 @@ class OrderModel(Base):
         DateTime
     )
     total: Mapped[str] = mapped_column(
-        Double
+        Float
     )
-    order: Mapped["UserModel"] = relationship(
+    user: Mapped["UserModel"] = relationship(
         "UserModel", lazy="subquery", back_populates="list_order"
     )
     list_order_item:Mapped[list["OrderItemModel"]] = relationship(
@@ -22,4 +22,4 @@ class OrderModel(Base):
     )
 
     def __str__(self):
-        return f'{self.created_date} {self.total}'
+        return f'{self.id}'

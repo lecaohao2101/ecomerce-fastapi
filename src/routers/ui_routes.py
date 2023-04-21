@@ -253,6 +253,14 @@ def page_sign_up(request: Request):
     })
 
 
+@router.get('/page-address')
+def page_sign_up(request: Request):
+    return TEMPLATES.TemplateResponse("pages/page-address.html", {
+        "request": request,
+        "config": settings
+    })
+
+
 
 @router.get('/page-404')
 def page_404(request: Request):

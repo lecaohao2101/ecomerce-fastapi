@@ -21,7 +21,7 @@ class AddressModel(Base):
         String
     )
     number_home: Mapped[str] = mapped_column(
-        String, unique=True
+        String
     )
     user_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("user.id")

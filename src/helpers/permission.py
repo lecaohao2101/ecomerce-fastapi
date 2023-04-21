@@ -2,6 +2,7 @@ from starlette.requests import Request
 from src.database.models import RoleModel, RoleEnum, UserModel
 from src.database.session import SessionLocal
 
+
 PERMISSION = {
     "ADMIN": ["*",
         # {"user-model": ["list","edit", "details", "view"]},

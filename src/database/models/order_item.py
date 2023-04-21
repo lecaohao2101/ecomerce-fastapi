@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, ForeignKey, DateTime, Double
+from sqlalchemy import String, Integer, ForeignKey, DateTime, Float
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database.base_class import Base
@@ -15,7 +15,7 @@ class OrderItemModel(Base):
         Integer
     )
     subtotal: Mapped[str] = mapped_column(
-        Double
+        Float
     )
     order: Mapped["OrderModel"] = relationship(
         "OrderModel", lazy="subquery", back_populates="list_order_item"
@@ -25,4 +25,4 @@ class OrderItemModel(Base):
     )
 
     def __str__(self):
-        return f'{self.quantity} {self.subtotal}'
+        return f'{self.book.name} {self.quantity}'

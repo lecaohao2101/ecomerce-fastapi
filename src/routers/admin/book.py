@@ -6,11 +6,11 @@ from src.helpers.permission import check_role_access, check_role_view
 class BookAdmin(ModelView, model=BookModel):
     name_plural = "Book"
     icon = "fa-solid fa-book"
+    column_list = [BookModel.id, BookModel.name, BookModel.price, BookModel.stock,
+    BookModel.category, BookModel.created_at,BookModel.updated_at]
+    column_details_exclude_list = [BookModel.store_id,BookModel.id,BookModel.category_id,BookModel.author_id,BookModel.list_book_order_item]
+    column_searchable_list=[BookModel.name]
 
-    column_list = [BookModel.id, BookModel.name, BookModel.description, BookModel.price, BookModel.stock,
-                   BookModel.list_book_author, BookModel.category, BookModel.store, BookModel.created_at,
-                   BookModel.updated_at]
-    column_searchable_list = [BookModel.name]
     def is_accessible(self, request) -> bool:
         return check_role_access(request)
 

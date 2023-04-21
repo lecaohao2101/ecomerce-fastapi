@@ -1,36 +1,31 @@
 from starlette.requests import Request
-from src.database.models import RoleModel, RoleEnum, UserModel
+
+from src.database.models import RoleModel
 from src.database.session import SessionLocal
 
-
 PERMISSION = {
-    "ADMIN": ["*",
-        # {"user-model": ["list","edit", "details", "view"]},
-        # {"store-model": ["list"]},
+    "ADMIN": [
+        "*"
+    ],
+    "STORE_OWNER": [
+        {"book-model": ["list","details","edit","delete","create"]},
+        {"order-model": ["list","details","edit","delete","create"]},
+        {"order-item-model": ["list","details","edit","delete","create"]},
         {"/": ["index"]},
     ],
-    "STORE_OWNER": ["*",
-        # {"book-model": ["list"]},
-        # {"category-model": ["list"]},
-        # {"order-model": ["list"]},
-        # {"order-item-model": ["list"]},
-        {"/": ["index"]},
+    "CUSTOMER": [
     ],
-    "CUSTOMER": [],
 }
 
 VIEWS = {
-    "ADMIN": ["*"
-        # "user-model",
-        # "store-model",
+    "ADMIN": ["*"],
+    "STORE_OWNER": [
+        "book-model",
+        "order-model",
+        "order-item-model"
     ],
-    "STORE_OWNER": ["*"
-        # "book-model",
-        # "category-model",
-        # "order-model",
-        # "order-item-model",
+    "CUSTOMER": [
     ],
-    "CUSTOMER": [],
 }
 
 
@@ -38,17 +33,17 @@ def get_permission(role: str, resource: str, action: str):
     permissions: list[dict] = PERMISSION.get(role)
     if permissions:
         if permissions[0] != "*":
-            count = 0
+            count=0
             for permission in permissions:
                 permission_resource = permission.get(resource)
                 if permission_resource:
                     if action in permission_resource:
-                        count += 1
+                        count+=1
                     else:
                         continue
                 else:
                     continue
-            if count == 0:
+            if count==0:
                 return False
             else:
                 return True
@@ -56,6 +51,9 @@ def get_permission(role: str, resource: str, action: str):
             return True
     else:
         return False
+
+
+
 
 
 def get_view(role: str, identity: str):
@@ -100,7 +98,3 @@ def check_role_view(request: Request, identity):
         return get_view(role, identity)
     else:
         return False
-
-
-
-
